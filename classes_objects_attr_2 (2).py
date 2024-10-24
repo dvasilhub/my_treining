@@ -2,36 +2,77 @@ class House:
 
     def __init__(self, name, number_of_floors):
         self.name = name
-        self.nFloors = number_of_floors
+        self.number_of_floors = number_of_floors
 
-    def go_to(self, new_floor: int):
-        if new_floor > self.nFloors:
-            print('Такого этажа не существует!')
+    def go_to(self, new_floor):
+        if new_floor > self.number_of_floors or new_floor < 1:
+            print ("Такого этажа не существует")
         else:
-            if new_floor < 1:
-                for f in range(1, new_floor-1, -1):
-                    print('Спускаемся:', f)
-            for f in range(1, new_floor+1):
-                print('Поднимаемся:', f)
+            print (new_floor)
 
     def __len__(self):
-        return self.nFloors
+        return self.number_of_floors
 
     def __str__(self):
-        return f'Название: "{self.name}", кол-во этажей: {self.nFloors}.'
+        return f'Название: {self.name},кол-во этажей: {self.number_of_floors}'
 
-def main():
-    # №1
-    print('ДЗ-1:')
-    h1 = House('ЖК Горский', 18)
-    h2 = House('Домик в деревне', 2)
-    h3 = House('ЖК Летний', 22)
-    h1.go_to(5)
-    h2.go_to(10)
-    h3.go_to(-2)
-    # №2
-    print(f'ДЗ-2:\n{h1}\n{h2}\n{h3}')
-    print(len(h1), len(h2), len(h3))
+    def __eq__(self, other):
+        if not isinstance (other, House):
+            raise ArithmeticError ("other должен быть  объектом House")
+        return self.number_of_floors == other.number_of_floors
 
-if __name__ == '__main__':
-    main()
+    def __lt__(self, other):
+        if not isinstance (other, House):
+            raise ArithmeticError ("other должен быть  int или объектом House")
+        return self.number_of_floors < other.number_of_floors
+
+    def __le__(self, other):
+        if not isinstance (other, House):
+            raise ArithmeticError ("other должен быть  объектом House")
+        return self.number_of_floors <= other.number_of_floors
+
+    def __gt__(self, other):
+        if not isinstance (other, House):
+            raise ArithmeticError ("other должен быть  объектом House")
+        return self.number_of_floors > other.number_of_floors
+
+    def __ge__(self, other):
+        if not isinstance (other, House):
+            raise ArithmeticError ("other должен быть  объектом House")
+        return self.number_of_floors >= other.number_of_floors
+
+    def __ne__(self, other):
+        if not isinstance (other, House):
+            raise ArithmeticError ("other должен быть объектом House")
+        return self.number_of_floors != other.number_of_floors
+
+    def __add__(self, valuo):
+        if not isinstance (valuo, (int, House)):
+            raise ArithmeticError ("valuo должен быть int или объектом House")
+        self.number_of_floors = self.number_of_floors + valuo
+        return House (self.name, self.number_of_floors)
+
+    def __radd__(self, valuo):
+        return House.__add__ (self, valuo)
+
+    def __iadd__(self, valuo):
+        return House.__add__ (self, valuo)
+
+
+h1 = House ('ЖК Эльбрус', 10)
+h2 = House ('ЖК Акация', 20)
+print (h1)
+print (h2)
+print (h1 == h2)
+h1 = h1 + 10
+print (h1)
+print (h1 == h2)
+h1 += 10
+print (h1)
+h2 = 10 + h2
+print (h2)
+print (h1 > h2)
+print (h1 >= h2)
+print (h1 < h2)
+print (h1 <= h2)
+print (h1 != h2)
