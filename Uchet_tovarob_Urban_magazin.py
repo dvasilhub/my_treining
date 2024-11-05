@@ -23,14 +23,13 @@ class Shop:
         return products
 
     def add(self, *products):
+        file = open(self.__file_name, 'a')
         for product in products:
             if product.name not in self.get_products():
-                file = open(self.__file_name, 'a')
                 file.write(product.__str__() + '\n')
-
             else:
                 print(f'Продукт {product.name} уже есть в магазине')
-
+        file.close
 
 s1 = Shop()
 p1 = Product('Картошка',  53.5, 'Vegitables')
